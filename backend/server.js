@@ -1,10 +1,16 @@
 const express = require("express")
 const morgan = require("morgan")
 const dotenv = require("dotenv")
+const mongoose = require("mongoose")
 
 const app = express()
 
 dotenv.config({ path: "./config.env" })
+
+const DB = process.env.DATABASE_URI.replace("<PASSWORD>", process.env.DATABASE_PASSWORD)
+mongoose.connect(DB).then(() => {
+   console.log("Database connected! ✅")
+})
 
 app.use(express.json())
 
