@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema({
    },
    email: {
       type: String,
-      required: [true, "Email is requires"],
+      required: [true, "Email is required!"],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, "Please enter a valid email"]
+      validate: [validator.isEmail, "Please enter a valid email!"]
    },
    password: {
       type: String,
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
    },
    confirmPassword: {
       type: String,
-      required: [true, "Please confirm your password"]
+      required: [true, "Please confirm your password!"]
    }
 })
 
