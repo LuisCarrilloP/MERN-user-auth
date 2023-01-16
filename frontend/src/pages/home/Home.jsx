@@ -11,7 +11,7 @@ const Home = () => {
          
          <div className="content-container">
             <header className="content-header">
-               <Link to="/" className="link logo">CodeBrew</Link>
+               <Link to="/" className="link logo">User Auth</Link>
 
                {
                   location.pathname === "/sign-in" 
