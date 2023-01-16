@@ -31,6 +31,11 @@ const handleValidationError = (error) => {
    
    return new AppError(message, 400)
 }
+const handleDuplicateFieldsError = (error) => {
+   const message = "Duplicated filed"
+
+   return new AppError(message, 400)
+}
 
 const globalErrorController = (err, req, res, next) => {
    // console.log(err.stack)
@@ -43,9 +48,14 @@ const globalErrorController = (err, req, res, next) => {
    }else if(process.env.NODE_ENV === "production"){
       let error = {...err}
       error.name = err.name
+      error.code = err.code
 
       if(error.name === "ValidationError"){
          error = handleValidationError(err)
+      }
+
+      if(error.code === 11000){
+         error = handleDuplicateFieldsError(error)
       }
       
       prodError(res, error)
