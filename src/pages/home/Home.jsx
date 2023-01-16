@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import SignIn from "../../components/sign-in/SignIn";
 import SignUp from "../../components/sign-up/SignUp";
 import './Home.css';
@@ -13,7 +14,7 @@ const Home = () => {
                <p>Already have an account? <span>Sign In</span></p>
             </header>
             <div className="outlet-container">
-               <SignIn/>
+               <Outlet />
             </div>
          </div>
 
