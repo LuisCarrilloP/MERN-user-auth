@@ -3,6 +3,14 @@ const morgan = require("morgan")
 const dotenv = require("dotenv")
 const mongoose = require("mongoose")
 
+//utils
+const AppError = require("./utils/appError")
+
+//controllers
+const globalErrorController = require("./controllers/globalErrorController")
+
+
+
 const app = express()
 
 dotenv.config({ path: "./config.env" })
@@ -24,6 +32,22 @@ const port = process.env.PORT || 3000
 const userRoutes = require("./routes/userRoutes")
 
 app.use(`/api/v1/users`, userRoutes)
+
+//handle unhandled routes
+app.all("*", (req, res, next) => {
+
+   // const err = new Error(`Can't find the route ${req.originalUrl}`)
+   // err.statusCode = 404
+   // err.status = "fail"
+
+   // next(err)//*jump automatically to the G.E.H.
+
+   next(new AppError(`Can't find the route ${req.originalUrl}`, 404))
+})
+
+//global error handler
+app.use(globalErrorController)
+
 
 app.get("/", (req, res) => {
    res.status(200).json({ message: "Server says hello! 👋🏻"})
