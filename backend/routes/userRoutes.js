@@ -9,6 +9,8 @@ const authController = require("../controllers/authController")
 
 //auth routes
 router.route("/signup").post(authController.signup)
+router.route("/login").post(authController.login)
+
 router.route("/").post(userController.createuser)
 router.route("/:id").get(userController.getUser)
 
