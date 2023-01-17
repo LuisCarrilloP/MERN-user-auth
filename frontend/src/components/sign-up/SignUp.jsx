@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+//Redux
+import { useSelector, useDispatch } from 'react-redux';
+
+import { registerUser } from '../../features/auth/authActions';
+
 
 
 const defaultFormFields = {
@@ -13,6 +18,8 @@ const SignUp = () => {
 
    const [formFields, setFormFields] = useState(defaultFormFields)
    const [formErrors, setFormErrors] = useState({})
+
+   const dispatch = useDispatch()
 
    const handleInputValueChange = (event) => {
       const { name, value } = event.target
@@ -50,6 +57,7 @@ const SignUp = () => {
    const handleSubmit = (event) => {
       event.preventDefault()
       setFormErrors(handleValidation)
+      dispatch(registerUser(formFields))
    }
 
    return (
