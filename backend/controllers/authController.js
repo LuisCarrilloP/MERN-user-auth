@@ -21,10 +21,16 @@ exports.signup = asyncErrorHandler(async(req, res, next) => {
 
    const token = generateToken(newUser._id)
 
+   const user = {
+      name: newUser.name,
+      email: newUser.email,
+      _id: newUser._id
+   }
+
    res.status(200).json({
       status: "success",
       data: {
-         user: newUser,
+         user: user,
          token
       }
    })
