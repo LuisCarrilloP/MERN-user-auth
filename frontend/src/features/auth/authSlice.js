@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { registerUser } from "./authActions";
 
+//get user from the local storage
+const user = JSON.parse(localStorage.getItem("user"))
+
 const initialState = {
-   user: null,
+   user: user ? user : null,
    loading: false,
    error: false,
    success: false,
@@ -12,7 +15,14 @@ const initialState = {
 export const authSlice = createSlice({
    name: "auth",
    initialState: initialState,
-   reducers: {},
+   reducers: {
+      reset: (state) => {
+         state.loading = false
+         state.success = false
+         state.error = false
+         state.message = false
+      }
+   },
    extraReducers: (builder) => {
       builder.addCase(registerUser.pending, (state) => {
          state.loading = true
@@ -30,5 +40,7 @@ export const authSlice = createSlice({
       })
    }
 })
+
+export const { reset } = authSlice.actions
 
 export default authSlice.reducer

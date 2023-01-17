@@ -25,9 +25,15 @@ const prodError = (res, err) => {
 }
 
 const handleValidationError = (error) => {
-   let allErrors = Object.values(error.errors).map((e) => e.message)
+   // let allErrors = Object.values(error.errors).map((e) => e.message)
+   let allErrors = {}
+   //store the errors as a key value pair
+   Object.values(error.errors).forEach(item => {
+      return allErrors[item.path] = item.message
+   })
 
-   const message = `Invalid input: ${allErrors.join(" ")}`
+   // const message = `Invalid input: ${allErrors.join(" ")}`
+   const message = JSON.stringify(allErrors)
    
    return new AppError(message, 400)
 }

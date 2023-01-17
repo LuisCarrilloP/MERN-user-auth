@@ -5,6 +5,7 @@ export const registerUser = createAsyncThunk("auth/signup", async(userData, thun
    try {
       const response = await axios.post(`/api/v1/users/signup`, userData)
       if(response.data){
+         localStorage.setItem("user", JSON.stringify(response.data))
          return response.data
       }
 
