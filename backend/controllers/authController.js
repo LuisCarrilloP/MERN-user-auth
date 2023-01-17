@@ -40,8 +40,21 @@ exports.login = asyncErrorHandler(async(req, res, next) => {
    const { email, password } = req.body
 
    //Check email and password entered
+   // if(!email || !password){
+   //    return next(new AppError("Email and password are required!"), 400)
+   // }
    if(!email || !password){
-      return next(new AppError("Email and password are required!"), 400)
+      let message = {}
+
+      if(!email){
+         message.email = "Email is required!"
+      }
+
+      if(!password){
+         message.password = "Password is required"
+      }
+
+      return next(new AppError(JSON.stringify(message)), 400)
    }
 
    //Check user exists && Ckeck password correct

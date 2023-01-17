@@ -44,7 +44,15 @@ const SignIn = () => {
       formInput.classList.add("error")
    }
    const handleError = (message) => {
-      alert(message)
+      //Parse the error message string
+      const messageObject = JSON.parse(message)
+      
+      Object.keys(messageObject).forEach((item) => {
+         changeBorderColorOnError(item)
+      })
+
+      setFormErrrors(messageObject)
+
    }
    // const handleValidation = () => {
    //    let error = {}

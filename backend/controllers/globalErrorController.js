@@ -55,6 +55,7 @@ const globalErrorController = (err, req, res, next) => {
       let error = {...err}
       error.name = err.name
       error.code = err.code
+      error.message = err.message
 
       if(error.name === "ValidationError"){
          error = handleValidationError(err)
