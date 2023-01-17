@@ -38,9 +38,15 @@ const handleValidationError = (error) => {
    return new AppError(message, 400)
 }
 const handleDuplicateFieldsError = (error) => {
-   const message = "Duplicated filed"
+   // const message = "Duplicated filed"
+   // return new AppError(message, 400)
 
-   return new AppError(message, 400)
+   let allErrors = {}
+   Object.keys(error.keyValue).forEach((item) => {
+      return (allErrors[item] = `This value already exists. Please use another value`)
+   })
+
+   return new AppError(JSON.stringify(allErrors), 400)
 }
 
 const globalErrorController = (err, req, res, next) => {
