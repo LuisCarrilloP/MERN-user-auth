@@ -3,6 +3,7 @@ const asyncErrorHandler = require("../utils/asyncErrorHandler")
 const jwt = require("jsonwebtoken")
 const AppError = require("../utils/appError")
 const sendEmailToResetPassword = require("../utils/handleEmail")
+const crypto = require("crypto")
 
 
 const generateToken = (userId) => {
@@ -119,6 +120,41 @@ exports.forgotPassword = asyncErrorHandler(async(req, res, next) => {
 
 //receive token and updated password from the user
 
-exports.resetPassword = asyncErrorHandler(async() => {
+exports.resetPassword = asyncErrorHandler(async(req, res, next) => {
+   //Encrypt token received and compare it with the db one
+   const hash = crypto.createHash("sha256")
+   const encryptedTokenString = hash.update(req.params.resettoken).digest().toString("hex")
+   
+   //Get user based on the token
+   const user = await User.findOne({
+      passwordResetToken: encryptedTokenString,
+      passwordResetTokenExpiresIn: { $gt: Date.now()}
+   })
+
+   //token valid and user exists uptadte password
+   if(!user){
+      return next(new AppError("Token has expired", 400))
+   }
+
+   user.password = req.body.password
+   user.confirmPassword = req.body.confirmPassword
+   user.passwordResetToken = undefined
+   user.passwordResetTokenExpiresIn = undefined
+   await user.save()
+
+   //Login the user
+   const token = generateToken(user._id)
+   const userWithModifiedPassword = {
+      name: user.name,
+      email: user.email,
+   }
+
+   res.status(200).json({
+      status: "success",
+      data: {
+         user: userWithModifiedPassword,
+         token: token
+      }
+   })
 
 })
