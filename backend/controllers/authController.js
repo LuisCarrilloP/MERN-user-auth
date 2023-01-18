@@ -95,7 +95,7 @@ exports.forgotPassword = asyncErrorHandler(async(req, res, next) => {
    // const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`
 
    const text = `Forgot password? Submit a new password and confirm password by clicking the button below`
-   const url = `http://localhost:3000`
+   const url = `http://localhost:3000/reset-password/${resetToken}`
 
    try {
       await new Email(user, url).sendEmailToResetPassword("emailTemplate", {

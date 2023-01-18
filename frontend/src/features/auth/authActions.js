@@ -49,3 +49,16 @@ export const forgotPassword = createAsyncThunk("auth/forgotPassword", async(data
       return thunkAPI.rejectWithValue(message)
    }
 })
+
+export const resetPassword = createAsyncThunk("auth/resetPassword", async(data, thunkAPI) => {
+   try {
+      const response = await axios.patch(`/api/v1/users/resetPassword/${data.token}`, data.userData)
+      return response.data
+      
+   } catch (err) {
+      const message = (err.response && err.response.data.message) || err.message
+
+      //rejectWithValue sends the error message as a payload
+      return thunkAPI.rejectWithValue(message)
+   }
+})
