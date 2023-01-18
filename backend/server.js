@@ -2,6 +2,7 @@ const express = require("express")
 const morgan = require("morgan")
 const dotenv = require("dotenv")
 const mongoose = require("mongoose")
+const path = require("path")
 
 //utils
 const AppError = require("./utils/appError")
@@ -9,9 +10,10 @@ const AppError = require("./utils/appError")
 //controllers
 const globalErrorController = require("./controllers/globalErrorController")
 
-
-
 const app = express()
+
+app.set("view engine", "pug")
+app.set("views", path.join(__dirname, "views"))
 
 dotenv.config({ path: "./config.env" })
 
@@ -27,6 +29,15 @@ if(process.env.NODE_ENV === "development"){
 }
 
 const port = process.env.PORT || 3000
+
+//Routes for pug templates
+app.get("/", (req, res) => {
+   res.render("emailTemplate", {
+      text: "Forgot password? Submit a new password and confirm password by clicking the button below",
+      user: "Luis",
+      url: "#"
+   })
+})
 
 //Routes
 const userRoutes = require("./routes/userRoutes")

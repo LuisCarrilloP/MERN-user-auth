@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -109,6 +109,8 @@ const SignIn = () => {
             </div>
 
             <button className='form-button' type='submit'>Sign In</button>
+
+            <Link className="forgot-link" to="/forgot-password">Forgot your password?</Link>
          </form>
 
       </section>

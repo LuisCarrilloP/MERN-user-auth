@@ -2,7 +2,7 @@ const User = require("../models/userModel")
 const asyncErrorHandler = require("../utils/asyncErrorHandler")
 const jwt = require("jsonwebtoken")
 const AppError = require("../utils/appError")
-const sendEmailToResetPassword = require("../utils/handleEmail")
+const Email = require("../utils/handleEmail")
 const crypto = require("crypto")
 
 
@@ -92,14 +92,14 @@ exports.forgotPassword = asyncErrorHandler(async(req, res, next) => {
    await user.save({validateBeforeSave: false})
 
    //Send the text token to the email
-   const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`
+   // const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`
 
-   const text = `Forgot your password? Reset here: ${resetUrl}`
+   const text = `Forgot password? Submit a new password and confirm password by clicking the button below`
+   const url = `http://localhost:3000`
 
    try {
-      await sendEmailToResetPassword({
-         email: req.body.email,
-         subject: "Your password reset token is valid for 10 minutes",
+      await new Email(user, url).sendEmailToResetPassword("emailTemplate", {
+         subject: "This passwor reset link is valid for 10 minutes",
          text: text
       })
 
